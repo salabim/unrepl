@@ -142,15 +142,15 @@ to your AutoHotKeyScript (assuming unrepl.py is in X:\utilities\)
 
 If conversion is not possible, the clipboard will be pasted untranslated.
 
-With the -i command line option, it possible to avoid the question whether to include print statements.
-Use `unrepl` -i y` to include print statements.
-Use `unrepl` -i n` to not include print statements (i.e. leave lines creating output untouched).
+With the -i command line option, it possible to avoid the question whether or not to use print statements.
+Use `unrepl` -u y` to use print statements.
+Use `unrepl` -u n` to not use print statements (i.e. leave lines creating output untouched).
 
 ## API
 `unrepl` has just one public API function: `unrepl`:
 
 ```
-def unrepl(code, include_print_statements=False):
+def unrepl(code, use_print_statements=False):
     """
     Cleans up a code fragment from a REPL, with output lines
 
@@ -159,9 +159,9 @@ def unrepl(code, include_print_statements=False):
     code : str
         code to clean up
 
-    include_print_statements : bool
-        if True (default) include print statements for lines that generate output
-        if False, include lines untranslated for lines that generate output
+    use_print_statements : bool
+        if True (default) use print statements for lines that generate output
+        if False, use lines untranslated for lines that generate output
         
     Returns
     -------
@@ -169,12 +169,41 @@ def unrepl(code, include_print_statements=False):
     
     Exceptions
     ----------
-    Raises a unrepl.IncorrectClipboardError is code is not proper REPL output, i.e.
+    Raises an unrepl.IncorrectClipboardError is code is not proper REPL output, i.e.
     first line starts with `>>> `.
     """
+    
+### Example usage
+```
+import unrepl
+
+repl_output = """\
+>>> import math
+>>> angle = 90
+>>> math.radians(90)
+1.5707963267948966
+>>> math.pi / 2
+1.5707963267948966
+"""
+unrepled = unrepl.unrepl(repl_output, use_print_statements=True)
+print(unrepled)
+print("execute ...")
+exec(unrepled)
+```
+, with output
+```
+import math
+angle = 90
+print(repr(eval('math.radians(90)')))
+#  1.5707963267948966
+print(repr(eval('math.pi / 2')))
+#  1.5707963267948966
+execute ...
+1.5707963267948966
+1.5707963267948966
 ```
 
 ## Disclaimer
 The `unrepl` utility does not provide a 100% reliable conversion. That's because the REPL output
 is not analyzed in depth and thus will only serve the most basic REPL outputs.
-Still, it will convert nearly all REPL output in a proper way.
+Still, it will convert nearly all published REPL outputs in a proper way.
