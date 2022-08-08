@@ -172,7 +172,7 @@ def unrepl(code, use_print_statements=False):
     Raises an unrepl.IncorrectClipboardError is code is not proper REPL output, i.e.
     first line starts with `>>> `.
     """
-    
+```    
 ### Example usage
 ```
 import unrepl
