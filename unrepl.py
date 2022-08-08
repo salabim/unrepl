@@ -1,8 +1,10 @@
+from re import A
 import sys
 import unrepl
 import argparse
 
 __version__ = "1.0.0"
+
 
 class IncorrectClipboardError(Exception):
     ...
@@ -31,7 +33,8 @@ def _is_repl(text):
 def _has_output_lines(text):
     lines = text.splitlines()
     for line in lines:
-        if not line.startswith(">>> ") and line.startwith("... ") and not line.strip() == "":
+        if not (line.startswith(">>> ") or line.startswith("... ") or line.strip() == ""):
+            print("***", repr(line))
             return True
     return False
 
@@ -139,18 +142,17 @@ def _main():
     if _is_repl(contents):
         if use_print_statements is None:
             if _has_output_lines(contents):
-                use_print_statements = _messagebox_askyesnocancel("unrepl", "use print statements")
+                use_print_statements = _messagebox_askyesnocancel("unrepl", "Use print statements ?")
             else:
-                use_print_statement = False
+                use_print_statements = False
 
         if use_print_statements is not None:  # didn't press Cancel
 
             translated_contents = unrepl(contents, use_print_statements=use_print_statements)
             _set_clipboard(translated_contents)
     else:
-        _messagebox_showinfo("unrepl", "clipboard does not contain proper REPL output")
+        _messagebox_showinfo("unrepl", "Clipboard does not contain proper REPL output")
 
 
 if __name__ == "__main__":
     _main()
-

@@ -86,7 +86,7 @@ min(prices)
 max(prices)
 #  'pineapple'
 ```
-You can also choose to generate print statements for those lines that generate output,
+You can also choose to use print statements for those lines that generate output,
 so you can actually run the code and get the proper output, like:
 
 ```
@@ -131,20 +131,20 @@ The program prompts whether to use print statements.
 
 ## Combination with AutoHotKey (Windows only)
 Under Windows, unrepl can be called with a hotkey, that inserts the converted clipboard directly.
-So, for instance, if you want unrepl to be called with <Shift><Ctrl><Alt>v, add 
+So, for instance, if you want unrepl to be called with `<Shift><Ctrl><Alt>v`, add 
 ```
 ^!+v::
     RunWait, X:\utilities\unrepl.py,,hide
     Send, ^v
     return
 ```
-to your AutoHotKeyScript (assuming unrepl.py is in X:\utilities\)
+to your AutoHotKeyScript (assuming `unrepl.py` is in `X:\utilities\`)
 
 If conversion is not possible, the clipboard will be pasted untranslated.
 
-With the -i command line option, it possible to avoid the question whether or not to use print statements.
-Use `unrepl` -u y` to use print statements.
-Use `unrepl` -u n` to not use print statements (i.e. leave lines creating output untouched).
+With the `-u` command line option, it possible to avoid the question whether or not to use print statements.
+Use `unrepl -u y` to use print statements.
+Use `unrepl -u n` to not use print statements (i.e. leave lines creating output untouched).
 
 ## API
 `unrepl` has just one public API function: `unrepl`:
