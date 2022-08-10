@@ -1,5 +1,4 @@
 import sys
-import unrepl
 import argparse
 
 __version__ = "1.0.2"
