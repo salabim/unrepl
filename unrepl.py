@@ -1,9 +1,8 @@
-from re import A
 import sys
 import unrepl
 import argparse
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 
 class IncorrectClipboardError(Exception):
@@ -34,7 +33,6 @@ def _has_output_lines(text):
     lines = text.splitlines()
     for line in lines:
         if not (line.startswith(">>> ") or line.startswith("... ") or line.strip() == ""):
-            print("***", repr(line))
             return True
     return False
 
@@ -115,9 +113,12 @@ def unrepl(code, use_print_statements=False):
                 if line.strip() != "":
                     if last_line_is_code:
                         last_line = result_code[-1]
+                        expression = last_line.strip()
                         indent_level = len(last_line) - len(last_line.lstrip())
-                        last_line = last_line.lstrip().replace("'", r"\'")
-                        result_code[-1] = f"{indent_level * ' '}print(repr(eval('{last_line}')))"
+                        if indent_level:
+                            result_code[-1] = f"{indent_level * ' '}print(repr({expression})) # {expression.strip()}"
+                        else:
+                            result_code[-1] = f"_ = {expression}; print(repr(_)) # {expression.strip()}"
                         last_line_is_code = False
             result_code.append(f"#  {line}")
 

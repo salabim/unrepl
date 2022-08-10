@@ -1,5 +1,11 @@
 Changelog unrepl
 
+
+version 1.0.1  2022-08-09
+-------------------------
+When 'use_print_statements is True, _ is calculated as well.
+This also simplifies the print statement itself.
+
 version 1.0.0  2022-08-08
 -------------------------
 Initial version

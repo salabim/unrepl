@@ -55,7 +55,7 @@ You just copy the code to the clipboard, e.g.:
 >>> board
 [['_', '_', '_'], ['_', '_', '_'], ['X', '_', '_']]"""))
 ```
-and then run `unrepl`, which replaces the clupboard with:
+and then run `unrepl`, which replaces the clipboard with:
 
 ```
 board = []
@@ -98,12 +98,14 @@ prices = {
 }
 #  
 #  
-print(repr(eval('min(prices)')))
+_ = min(prices); print(repr(_)) # min(prices)
 #  'apple'
 #  
-print(repr(eval('max(prices)')))
+_ = max(prices); print(repr(_)) # max(prices)
 #  'pineapple'
 ```
+
+Note that the `_` variable is set as it would be in the REPL.
 
 Furthermore, `unrepl` can be used as a module (imported) in any Python program. 
 
