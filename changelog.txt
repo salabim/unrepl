@@ -1,5 +1,9 @@
 Changelog unrepl
 
+version 1.0.2  2022-08-10
+-------------------------
+The package is now also availabel on PyPI.
+
 
 version 1.0.1  2022-08-09
 -------------------------

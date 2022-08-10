@@ -113,7 +113,12 @@ Furthermore, `unrepl` can be used as a module (imported) in any Python program.
 As unrepl.py is just a singe file program, you can just download unrepl.py from GitHub
 https://github.com/salabim/unrepl
 and put it in your working directory.
-You can also install from anywhere with the `install_unrepl.py` script (also in the GitHub repository).
+
+Alternatively, get it from PyPI with
+```
+pip install unrepl
+```
+You can also install from anywhere with the `install_unrepl.py` script (in the GitHub repository).
 
 ## Supported platforms
 The utility should run on any Python implementation that has tkinter installed,
