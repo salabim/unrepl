@@ -1,7 +1,8 @@
 import sys
+import unrepl
 import argparse
 
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 
 
 class IncorrectClipboardError(Exception):
@@ -102,23 +103,25 @@ def unrepl(code, use_print_statements=False):
     lines = code.splitlines()
 
     result_code = []
-    last_line_is_code = False
+    last_line_code_index = None
     for line in lines:
-        if line.startswith(">>> ") or line.startswith("... "):
+        if line.startswith(">>>") or line.startswith("..."):
             result_code.append(line[4:])
-            last_line_is_code = True
+            if line[4:].strip() != "":
+                last_line_code_index = len(result_code) -1
+                print(last_line_code_index)
         else:
             if use_print_statements:
                 if line.strip() != "":
-                    if last_line_is_code:
-                        last_line = result_code[-1]
+                    if last_line_code_index is not None:
+                        last_line = result_code[last_line_code_index]
                         expression = last_line.strip()
                         indent_level = len(last_line) - len(last_line.lstrip())
                         if indent_level:
-                            result_code[-1] = f"{indent_level * ' '}print(repr({expression})) # {expression.strip()}"
+                            result_code[last_line_code_index] = f"{indent_level * ' '}print(repr({expression})) # {expression.strip()}"
                         else:
-                            result_code[-1] = f"_ = {expression}; print(repr(_)) # {expression.strip()}"
-                        last_line_is_code = False
+                            result_code[last_line_code_index] = f"_ = {expression}; print(repr(_)) # {expression.strip()}"
+                        last_line_code_index = None
             result_code.append(f"#  {line}")
 
     return "\n".join(result_code)

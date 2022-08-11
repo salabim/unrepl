@@ -1,8 +1,12 @@
 Changelog unrepl
 
+version 1.0.3  2022-08-11
+-------------------------
+Lines that just start with >>> or ... without any content are now ignored completely
+
 version 1.0.2  2022-08-10
 -------------------------
-The package is now also availabel on PyPI.
+The package is now also available on PyPI.
 
 
 version 1.0.1  2022-08-09

@@ -30,3 +30,23 @@ unrepled = unrepl.unrepl(repl_output, use_print_statements=True)
 print(unrepled)
 print("execute ...")
 exec(unrepled)
+
+
+repl_output = """\
+>>> for i in range(5):
+...     i * i
+...
+...
+0
+1
+4
+9
+16
+>>> _
+16
+"""
+print("-----")
+unrepled = unrepl.unrepl(repl_output, use_print_statements=True)
+print(unrepled)
+print("execute ...")
+exec(unrepled)
