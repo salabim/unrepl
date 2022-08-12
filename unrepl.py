@@ -107,9 +107,8 @@ def unrepl(code, use_print_statements=False):
     for line in lines:
         if line.startswith(">>>") or line.startswith("..."):
             result_code.append(line[4:])
-            if line[4:].strip() != "":
+            if line[4:].strip() != "" and not line[4:].strip().startswith('#'):
                 last_line_code_index = len(result_code) -1
-                print(last_line_code_index)
         else:
             if use_print_statements:
                 if line.strip() != "":
@@ -156,6 +155,10 @@ def _main():
     else:
         _messagebox_showinfo("unrepl", "Clipboard does not contain proper REPL output")
 
+unrepl.IncorrectClipboardError = IncorrectClipboardError
+unrepl.__version__ = __version__
 
 if __name__ == "__main__":
     _main()
+    
+

@@ -50,3 +50,7 @@ unrepled = unrepl.unrepl(repl_output, use_print_statements=True)
 print(unrepled)
 print("execute ...")
 exec(unrepled)
+
+from unrepl import unrepl
+
+raise unrepl.IncorrectClipboardError('jj')
