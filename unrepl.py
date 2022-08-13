@@ -97,6 +97,14 @@ def unrepl(code, use_print_statements=False):
     use_print_statements : bool
         if True (default) use print statements for lines that generate output
         if False, use lines untranslated for lines that generate output
+
+    Returns
+    -------
+    Cleaned up code
+
+    Raises
+    ------
+    IncorrectClipboardError if code is not a proper REPL output
     """
     if not _is_repl(code):
         raise IncorrectClipboardError("no REPL output in clipboard")
@@ -107,8 +115,8 @@ def unrepl(code, use_print_statements=False):
     for line in lines:
         if line.startswith(">>>") or line.startswith("..."):
             result_code.append(line[4:])
-            if line[4:].strip() != "" and not line[4:].strip().startswith('#'):
-                last_line_code_index = len(result_code) -1
+            if line[4:].strip() != "" and not line[4:].strip().startswith("#"):
+                last_line_code_index = len(result_code) - 1
         else:
             if use_print_statements:
                 if line.strip() != "":
@@ -155,10 +163,9 @@ def _main():
     else:
         _messagebox_showinfo("unrepl", "Clipboard does not contain proper REPL output")
 
+
 unrepl.IncorrectClipboardError = IncorrectClipboardError
 unrepl.__version__ = __version__
 
 if __name__ == "__main__":
     _main()
-    
-
