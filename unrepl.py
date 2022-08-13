@@ -2,7 +2,7 @@ import sys
 import unrepl
 import argparse
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 
 class IncorrectClipboardError(Exception):
