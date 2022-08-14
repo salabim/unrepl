@@ -2,11 +2,7 @@ import sys
 import unrepl
 import argparse
 
-__version__ = "1.0.4"
-
-
-class IncorrectClipboardError(Exception):
-    ...
+__version__ = "1.0.5"
 
 
 Pythonista = sys.platform == "ios"
@@ -85,7 +81,7 @@ def _messagebox_askyesnocancel(title, message):
     return response
 
 
-def unrepl(code, use_print_statements=False):
+def unrepl(code, use_print_statements=True):
     """
     Cleans up a code fragment from a REPL, with output lines
 
@@ -100,14 +96,15 @@ def unrepl(code, use_print_statements=False):
 
     Returns
     -------
-    Cleaned up code
+    Converted code, if proper REPL output
 
-    Raises
-    ------
-    IncorrectClipboardError if code is not a proper REPL output
+    Exceptions
+    ----------
+    Raises a ValueError if code is not proper REPL output, i.e.
+    first line starts with `>>> `.
     """
     if not _is_repl(code):
-        raise IncorrectClipboardError("no REPL output in clipboard")
+        raise ValueError("not proper REPL code")
     lines = code.splitlines()
 
     result_code = []
@@ -124,14 +121,11 @@ def unrepl(code, use_print_statements=False):
                         last_line = result_code[last_line_code_index]
                         expression = last_line.strip()
                         indent_level = len(last_line) - len(last_line.lstrip())
-                        if indent_level:
-                            result_code[last_line_code_index] = f"{indent_level * ' '}print(repr({expression})) # {expression.strip()}"
-                        else:
-                            result_code[last_line_code_index] = f"_ = {expression}; print(repr(_)) # {expression.strip()}"
+                        result_code[last_line_code_index] = f"{indent_level * ' '}_ = {expression}; print(repr(_)) # {expression.strip()}"
                         last_line_code_index = None
             result_code.append(f"#  {line}")
 
-    return "\n".join(result_code)
+    return "".join(f"{line}\n" for line in result_code)
 
 
 def _main():
@@ -164,7 +158,6 @@ def _main():
         _messagebox_showinfo("unrepl", "Clipboard does not contain proper REPL output")
 
 
-unrepl.IncorrectClipboardError = IncorrectClipboardError
 unrepl.__version__ = __version__
 
 if __name__ == "__main__":

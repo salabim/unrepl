@@ -118,7 +118,6 @@ Alternatively, get it from PyPI with
 ```
 pip install unrepl
 ```
-You can also install from anywhere with the `install_unrepl.py` script (in the GitHub repository).
 
 ## Supported platforms
 The utility should run on any Python implementation that has tkinter installed,
@@ -133,8 +132,8 @@ with a `# ` to make it a comment.
 The line that generated the output is either
 * untranslated 
 or
-* changed into a proper print statement
-The program prompts whether to use print statements.
+* changed into a line with a proper print statement
+The program prompts whether to use print statements, if required.
 
 ## Combination with AutoHotKey (Windows only)
 Under Windows, unrepl can be called with a hotkey, that inserts the converted clipboard directly.
@@ -176,7 +175,7 @@ def unrepl(code, use_print_statements=False):
     
     Exceptions
     ----------
-    Raises an unrepl.IncorrectClipboardError is code is not proper REPL output, i.e.
+    Raises a ValueError if code is not proper REPL output, i.e.
     first line starts with `>>> `.
     """
 ```    
@@ -187,9 +186,11 @@ import unrepl
 repl_output = """\
 >>> import math
 >>> angle = 90
->>> math.radians(90)
+>>> math.radians(angle)
 1.5707963267948966
 >>> math.pi / 2
+1.5707963267948966
+>>> _
 1.5707963267948966
 """
 unrepled = unrepl.unrepl(repl_output, use_print_statements=True)
@@ -201,11 +202,15 @@ exec(unrepled)
 ```
 import math
 angle = 90
-print(repr(eval('math.radians(90)')))
+_ = math.radians(angle); print(repr(_)) # math.radians(angle)
 #  1.5707963267948966
-print(repr(eval('math.pi / 2')))
+_ = math.pi / 2; print(repr(_)) # math.pi / 2
 #  1.5707963267948966
+_ = _; print(repr(_)) # _
+#  1.5707963267948966
+
 execute ...
+1.5707963267948966
 1.5707963267948966
 1.5707963267948966
 ```
@@ -213,4 +218,4 @@ execute ...
 ## Disclaimer
 The `unrepl` utility does not provide a 100% reliable conversion. That's because the REPL output
 is not analyzed in depth and thus will only serve the most basic REPL outputs.
-Still, it will convert nearly all published REPL outputs in a proper way. 
+Still, it does convert nearly all published REPL outputs in a proper way.

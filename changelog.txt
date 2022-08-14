@@ -1,5 +1,14 @@
 Changelog unrepl
 
+version 1.0.5  2022-08-14
+-------------------------
+Now raises a ValueError instead of IncorrectClipboardError if
+the code is not proper REPL code.
+
+The default for use_print_statements in unrepl is now True.
+
+Resulting code now always ends with a linefeed.
+
 version 1.0.4  2022-08-12
 -------------------------
 Code lines where the actual code starts with # are ignored now.
@@ -11,6 +20,8 @@ Now the function unrepl supports these two variables as
     unrepl.IncorrectClipboardError
 and
     unrepl.__version__
+    
+Tests added to the repository (in test_unrepl.py)l
 
 version 1.0.3  2022-08-11
 -------------------------
@@ -23,7 +34,7 @@ The package is now also available on PyPI.
 
 version 1.0.1  2022-08-09
 -------------------------
-When 'use_print_statements is True, _ is calculated as well.
+When 'use_print_statements' is True, _ is calculated as well.
 This also simplifies the print statement itself.
 
 version 1.0.0  2022-08-08
